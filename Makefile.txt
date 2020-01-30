@@ -1,0 +1,38 @@
+all: 2310bob 2310alice 2310hub
+
+OPTS=-std=gnu99 --pedantic -Wall -Werror -g
+
+2310alice: alice.o player.o playerError.o utils.o
+	gcc -o 2310alice alice.o player.o playerError.o utils.o -lm
+
+2310bob: bob.o player.o playerError.o utils.o
+	gcc -o 2310bob bob.o player.o playerError.o utils.o -lm
+
+2310hub: hub.o  hubError.o utils.o
+	gcc -o 2310hub hub.o hubError.o utils.o -lm
+
+hub.o:  hub.c hubError.h utils.h
+	gcc $(OPTS) -c hub.c
+
+hubError.o: hubError.c hubError.h
+	gcc $(OPTS) -c hubError.c
+
+alice.o: alice.c player.h playerError.h
+	gcc $(OPTS) -c alice.c
+
+bob.o: bob.c player.h playerError.h
+	gcc $(OPTS) -c bob.c
+
+player.o: player.c playerError.h
+	gcc $(OPTS) -c player.c
+
+playerError.o: playerError.c playerError.h
+	gcc $(OPTS) -c playerError.c
+
+utils.o: utils.c utils.h
+	gcc $(OPTS) -c utils.c
+
+
+clean:
+	rm -f player.o playerError.o 2310alice
+	rm -f hubError.o utils.o 2310hub
